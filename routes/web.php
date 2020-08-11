@@ -14,4 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/admin/login', "Admin\LoginController@login");
+Route::group(['prefix'=>"/admin"],function(){
+    Route::get('login', "Admin\LoginController@login");
+    Route::post('dologin', "Admin\LoginController@dologin");
+
+});
+// Route::get('/admin/login', "Admin\LoginController@login");

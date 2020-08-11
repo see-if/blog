@@ -21,9 +21,19 @@
     
     <div class="login layui-anim layui-anim-up">
         <div class="message">liner的后台管理系统</div>
+        @if (count($errors)>0)
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $item)
+                  <li>{{$item}}</li>
+              @endforeach
+            </ul>
+          </div>
+            
+        @endif
         <div id="darkbannerwrap"></div>
         
-        <form method="post" class="layui-form" >
+        <form method="post" class="layui-form" action="{{url('admin/dologin')}}">
             <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" style="border-radius: 7px">
             <hr class="hr15">
             <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input" style="border-radius: 7px">
@@ -31,6 +41,7 @@
             <input name="vericode" style="border-radius: 7px;width: 150px;float: left;" lay-verify="required" placeholder="验证码"  type="text" class="layui-input">
             <img src="{{captcha_src()}}" alt="" style="float: right;height:50px;" onclick="this.src='{{captcha_src()}}?'+Math.random()">
             <hr class="hr15">
+            {{ csrf_field() }}
             <input value="登录" lay-submit lay-filter="login" style="width:100%;border-radius: 8px;" type="submit">
             <hr class="hr20" >
         </form>
@@ -46,10 +57,10 @@
               //监听提交
               form.on('submit(login)', function(data){
                 // alert(888)
-                layer.msg(JSON.stringify(data.field),function(){
-                    location.href='index.html'
-                });
-                return false;
+                // layer.msg(JSON.stringify(data.field),function(){
+                //     location.href='login'
+                // });
+                // return false;
               });
             });
         })
