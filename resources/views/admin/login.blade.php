@@ -1,24 +1,25 @@
 <!doctype html>
-<html  class="x-admin-sm">
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>后台登录-X-admin2.2</title>
+	<title>后台登录-X-admin2.0</title>
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    
     @include('admin.public.style');
     @include('admin.public.script');
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
 </head>
 <body class="login-bg">
     
     <div class="login layui-anim layui-anim-up">
         <div class="message">liner的后台管理系统</div>
+        <div id="darkbannerwrap"></div>
+        
         @if (is_object($errors) && count($errors)>0)
           <div class="alert alert-danger">
             <ul>
@@ -34,8 +35,6 @@
             </ul>
           </div>
         @endif
-        <div id="darkbannerwrap"></div>
-        
         <form method="post" class="layui-form" action="{{url('admin/dologin')}}">
             <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" style="border-radius: 7px">
             <hr class="hr15">
@@ -58,16 +57,20 @@
               //   //关闭后的操作
               //   });
               //监听提交
-              form.on('submit(login)', function(data){
-                // alert(888)
-                // layer.msg(JSON.stringify(data.field),function(){
-                //     location.href='login'
-                // });
-                // return false;
-              });
+              // form.on('submit(login)', function(data){
+              //   // alert(888)
+              //   layer.msg(JSON.stringify(data.field),function(){
+              //       location.href='{{url('admin/index')}}'
+              //   });
+              //   return false;
+              // });
             });
         })
+
+        
     </script>
+
+    
     <!-- 底部结束 -->
     <script>
     //百度统计可去掉

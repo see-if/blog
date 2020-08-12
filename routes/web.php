@@ -28,5 +28,6 @@ Route::group(['prefix'=>"/admin",'namespace'=>'Admin',"middleware"=>"islogin"],f
         return view("admin.welcome");
     });
 
+    Route::resource("user","UserController");
 });
 // Route::get('/admin/login', "Admin\LoginController@login");
