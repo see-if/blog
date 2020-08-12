@@ -17,6 +17,12 @@ Route::get('/', function () {
 Route::group(['prefix'=>"/admin"],function(){
     Route::get('login', "Admin\LoginController@login");
     Route::post('dologin', "Admin\LoginController@dologin");
+    Route::get('index', function(){
+        return view("admin.index");
+    });
+    Route::get('welcome', function(){
+        return view("admin.welcome");
+    });
 
 });
 // Route::get('/admin/login', "Admin\LoginController@login");
