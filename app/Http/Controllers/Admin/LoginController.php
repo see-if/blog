@@ -54,8 +54,10 @@ class LoginController extends Controller
         //跳转到后台首页
         return redirect("admin/index");
     }
-    //进行md5加密
-    public function do_md5(){
-
+    //退出登录
+    public function logout(){
+        //清空session的信息
+        session()->flush();
+        return redirect("admin/login");
     }
 }

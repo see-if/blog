@@ -14,9 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::group(['prefix'=>"/admin"],function(){
-    Route::get('login', "Admin\LoginController@login");
-    Route::post('dologin', "Admin\LoginController@dologin");
+
+Route::group(["prefix"=>"admin","namespace"=>"Admin"],function(){
+    Route::get('login', "LoginController@login");
+    Route::post('dologin', "LoginController@dologin");
+});
+Route::group(['prefix'=>"/admin",'namespace'=>'Admin',"middleware"=>"islogin"],function(){
+    Route::get('logout', "LoginController@logout");
     Route::get('index', function(){
         return view("admin.index");
     });
