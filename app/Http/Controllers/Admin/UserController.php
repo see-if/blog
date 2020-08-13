@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use DB;
 class UserController extends Controller
 {
     /**
@@ -14,9 +14,21 @@ class UserController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $input=$request->except("_token");
+        // dd($input);
+        $page_size=intval($request->page_size)?intval($request->page_size):3;
+        $data=DB::table("user")
+        ->where(function($q)use($request){
+            if(!empty($request->username)){
+                $q->where("user_name","like","%".$request->username."%");
+            }
+        })
+        ->paginate($page_size);
+
+        return view("admin.user.list",compact("data","page_size","request"));
     }
 
     /**
@@ -29,6 +41,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view("admin/user/create");
     }
 
     /**
@@ -41,7 +54,27 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // DB::table("user")->insert(['email'=>"123456"]);
+        // return 123456;
+        //1.接受前端提交的数据
+        $input=$request->all();
+        
+        //2.进行表单验证
+        //3.添加到数据库的user表
+        $data['user_name']=$input['username'];
+        $data['user_pass']=$input['pass'];
+        $data['email']=$input['email'];
+        $res=DB::table("user")->insert($data);
+        //4。根据是否添加成功，给客户端返回一个json格式的反馈
+        if($res){
+            $root['status']=0;
+            $root['message']="添加成功";
+        }else{
+            $root['status']=1;
+            $root['message']="添加失败";
+
+        }
+        return $root;
     }
 
     /**
@@ -66,6 +99,7 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+        return view("admin.user.edit");
     }
 
     /**

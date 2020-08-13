@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/admin.login');
 });
 
 Route::group(["prefix"=>"admin","namespace"=>"Admin"],function(){
@@ -27,7 +27,10 @@ Route::group(['prefix'=>"/admin",'namespace'=>'Admin',"middleware"=>"islogin"],f
     Route::get('welcome', function(){
         return view("admin.welcome");
     });
-
-    Route::resource("user","UserController");
+    Route::post("user/store","UserController@store");
+    Route::any("user/index","UserController@index");
+    Route::get("user/create","UserController@create");
+    Route::get("user/edit/{id}","UserController@edit");
+    // Route::resource("user","UserController");
 });
 // Route::get('/admin/login', "Admin\LoginController@login");
