@@ -85,13 +85,13 @@
               <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/edit/'.$i->id)}}',600,400)" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/'.$i->id.'/edit')}}',600,400)" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
               <a onclick="x_admin_show('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
                 <i class="layui-icon">&#xe631;</i>
               </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+              <a title="删除" onclick="member_del(this,{{$i->id}})" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -156,9 +156,26 @@
       /*用户-删除*/
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+
+            $.post(
+              '/public/admin/user/'+id,
+              {
+                "_method":"delete",
+                "_token":"{{csrf_token()}}"
+              },
+              function(data){
+                if(data.status==0){
+                  //发异步删除数据
+                  $(obj).parents("tr").remove();
+                  layer.msg('已删除!',{icon:1,time:1000});
+
+                }else{
+                  layer.msg('删除失败!',{icon:5,time:1000});
+
+                }
+                // console.log(data);
+              }
+            );
           });
       }
 

@@ -27,10 +27,11 @@ Route::group(['prefix'=>"/admin",'namespace'=>'Admin',"middleware"=>"islogin"],f
     Route::get('welcome', function(){
         return view("admin.welcome");
     });
-    Route::post("user/store","UserController@store");
-    Route::any("user/index","UserController@index");
-    Route::get("user/create","UserController@create");
-    Route::get("user/edit/{id}","UserController@edit");
-    // Route::resource("user","UserController");
+    // Route::post("user/store","UserController@store");
+    // Route::any("user/index","UserController@index");
+    // Route::get("user/create","UserController@create");
+    // Route::get("user/edit/{id}","UserController@edit");
+    // Route::post("user/update","UserController@update");//杠定义好update路由，下一步调通ajax
+    Route::resource("user","UserController");
 });
 // Route::get('/admin/login', "Admin\LoginController@login");

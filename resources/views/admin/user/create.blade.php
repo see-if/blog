@@ -102,7 +102,7 @@
             //ajax提交
             $.ajax({
                 type:'post',
-                url:"store",
+                url:"/public/admin/user",
                 dataType:'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

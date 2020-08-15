@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use DB;
 class UserController extends Controller
@@ -99,7 +100,8 @@ class UserController extends Controller
     public function edit($id)
     {
         //
-        return view("admin.user.edit");
+        $data=DB::table("user")->where("id",$id)->first();
+        return view("admin.user.edit",compact("data"));
     }
 
     /**
@@ -112,6 +114,22 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+        Validator::make($request->all(), [
+            'email' => 'required|email',
+            'username' => 'required',
+        ])->validate();
+        $user_name=$request->username;
+        $email=$request->email;
+        $res = DB::update('update blog_user set user_name="'.$user_name.'",email = "'.$email.'" where id = ?', [$id]);
+        if($res){
+            $root['status']=0;
+            $root['message']="添加成功";
+        }else{
+            $root['status']=1;
+            $root['message']="添加失败";
+
+        }
+        return $root;
     }
 
     /**
@@ -123,5 +141,18 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        if(empty($id)){
+            return false;
+        }
+        $res=DB::delete("delete from blog_user where id = ? ",[$id]);
+        if($res){
+            $data['status']=0;
+            $data['message']="添加成功";
+        }else{
+            $data['status']=1;
+            $data['message']="添加失败";
+
+        }
+        return $data;
     }
 }

@@ -10,7 +10,7 @@
               </a>
               <ul class="sub-menu">
                 <li>
-                    <a _href="{{url('admin/user/index')}}">
+                    <a _href="{{url('admin/user')}}">
                         <i class="iconfont">&#xe6a7;</i>
                         <cite>用户列表</cite>
                         

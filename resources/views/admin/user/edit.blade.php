@@ -2,14 +2,15 @@
 <html>
   
   <head>
+    @include('admin.public.style')
+    @include('admin.public.script')
     <meta charset="UTF-8">
     <title>欢迎页面-X-admin2.0</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    @include('admin.public.style')
-    @include('admin.public.script')
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -25,8 +26,9 @@
                   <span class="x-red">*</span>邮箱
               </label>
               <div class="layui-input-inline">
+                <input type="hidden" name="id" value="{{$data->id}}">
                   <input type="text" id="L_email" name="email" required="" lay-verify="email"
-                  autocomplete="off" class="layui-input">
+                  autocomplete="off" class="layui-input" value="{{$data->email}}">
               </div>
               <div class="layui-form-mid layui-word-aux">
                   <span class="x-red">*</span>将会成为您唯一的登入名
@@ -38,22 +40,22 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="L_username" name="username" required="" lay-verify="nikename"
-                  autocomplete="off" class="layui-input">
+                  autocomplete="off" class="layui-input" value="{{$data->user_name}}">
               </div>
           </div>
-          <div class="layui-form-item">
+          {{-- <div class="layui-form-item">
               <label for="L_pass" class="layui-form-label">
                   <span class="x-red">*</span>密码
               </label>
               <div class="layui-input-inline">
                   <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
-                  autocomplete="off" class="layui-input">
+                  autocomplete="off" class="layui-input" value="{{$data->user_pass}}">
               </div>
               <div class="layui-form-mid layui-word-aux">
                   6到16个字符
               </div>
-          </div>
-          <div class="layui-form-item">
+          </div> --}}
+          {{-- <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
                   <span class="x-red">*</span>确认密码
               </label>
@@ -61,12 +63,12 @@
                   <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
                   autocomplete="off" class="layui-input">
               </div>
-          </div>
+          </div> --}}
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+              <button  class="layui-btn" lay-filter="edit" lay-submit="">
+                  修改
               </button>
           </div>
       </form>
@@ -93,15 +95,43 @@
         });
 
         //监听提交
-        form.on('submit(add)', function(data){
-          console.log(data);
-          //发异步，把数据提交给php
-          layer.alert("增加成功", {icon: 6},function () {
-              // 获得frame索引
-              var index = parent.layer.getFrameIndex(window.name);
-              //关闭当前frame
-              parent.layer.close(index);
+        form.on('submit(edit)', function(data){
+
+          var id=$("input[name='id']").val();
+          $.ajax({
+            type:"put",
+            url:"/public/admin/user/"+id,
+            dataType:"json",
+            headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:data.field,
+                success:function(data){
+                    //成功提示，并刷新页面
+                    if(data.status==0){
+                        layer.alert('修改成功',{icon:6},function(){
+                            parent.location.reload(true);
+                        });
+                    }else{
+                        layer.alert('修改失败',{icon:5});
+                    }
+
+                },error:function(){
+                    //错误信息
+                }
+
+
+
+
           });
+          // console.log(data);
+          // //发异步，把数据提交给php
+          // layer.alert("增加成功", {icon: 6},function () {
+          //     // 获得frame索引
+          //     var index = parent.layer.getFrameIndex(window.name);
+          //     //关闭当前frame
+          //     parent.layer.close(index);
+          // });
           return false;
         });
         
