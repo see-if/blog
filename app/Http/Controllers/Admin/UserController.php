@@ -27,6 +27,7 @@ class UserController extends Controller
                 $q->where("user_name","like","%".$request->username."%");
             }
         })
+        ->orderBy('id','desc')
         ->paginate($page_size);
 
         return view("admin.user.list",compact("data","page_size","request"));
@@ -151,6 +152,21 @@ class UserController extends Controller
         }else{
             $data['status']=1;
             $data['message']="添加失败";
+
+        }
+        return $data;
+    }
+    public function delAll(Request $request){
+        $ids=$request->input('ids');
+        $str=rtrim(str_pad('', 2 * count($ids), '?,',STR_PAD_RIGHT) , ',');
+        $res=DB::delete("delete from  blog_user where id in  (".$str.")   ",$ids);
+
+        if($res){
+            $data['status']=0;
+            $data['message']="删除成功";
+        }else{
+            $data['status']=1;
+            $data['message']="删除失败";
 
         }
         return $data;

@@ -70,7 +70,7 @@
           @foreach ($data as $i)
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$i->id}}'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>{{$i->id}}</td>
             <td>{{$i->user_name}}</td>
@@ -158,7 +158,7 @@
           layer.confirm('确认要删除吗？',function(index){
 
             $.post(
-              '/public/admin/user/'+id,
+              '/admin/user/'+id,
               {
                 "_method":"delete",
                 "_token":"{{csrf_token()}}"
@@ -184,11 +184,20 @@
       function delAll (argument) {
 
         var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+        // console.log(data);
+        layer.confirm('确认要删除吗？',function(index){
+
+            $.post('user/delAll',{'ids':data,"_token":"{{csrf_token()}}"},function(obj){
+              console.log(obj);
+              if(obj.status==0){
+                //捉到所有被选中的，发异步进行删除
+                layer.msg('删除成功', {icon: 1});
+                $(".layui-form-checked").not('.header').parents('tr').remove();
+
+              }else{
+                layer.msg('删除失败', {icon: 5});
+              }
+            });
         });
       }
     </script>

@@ -33,5 +33,6 @@ Route::group(['prefix'=>"/admin",'namespace'=>'Admin',"middleware"=>"islogin"],f
     // Route::get("user/edit/{id}","UserController@edit");
     // Route::post("user/update","UserController@update");//杠定义好update路由，下一步调通ajax
     Route::resource("user","UserController");
+    Route::post("user/delAll","UserController@delAll");
 });
 // Route::get('/admin/login', "Admin\LoginController@login");

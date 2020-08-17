@@ -100,7 +100,7 @@
           var id=$("input[name='id']").val();
           $.ajax({
             type:"put",
-            url:"/public/admin/user/"+id,
+            url:"/admin/user/"+id,
             dataType:"json",
             headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
