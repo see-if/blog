@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Model\User;
 use DB;
+use Illuminate\Support\Facades\Hash;
+
 class UserController extends Controller
 {
     /**
@@ -170,5 +173,10 @@ class UserController extends Controller
 
         }
         return $data;
+    }
+    public function incr(){
+        $has=Hash::make(123456);
+        $res=User::create(['user_name'=>'testincr','user_pass'=>$has,'status'=>1]);
+        dd($res);
     }
 }

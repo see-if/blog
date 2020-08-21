@@ -35,6 +35,37 @@
           </li>
           <li>
               <a href="javascript:;">
+                <i class="iconfont">&#xe6b8;</i>
+                <cite>角色管理</cite>
+                <i class="iconfont nav_right">&#xe697;</i>
+              </a>
+              <ul class="sub-menu">
+                <li>
+                    <a _href="{{url('admin/role')}}">
+                        <i class="iconfont">&#xe6a7;</i>
+                        <cite>角色列表</cite>
+                        
+                    </a>
+                </li >
+                <li>
+                    <a _href="{{url('admin/role/create')}}">
+                        <i class="iconfont">&#xe6a7;</i>
+                        <cite>添加角色</cite>
+                        
+                    </a>
+                </li>
+                <li>
+                    <a _href="xx.html">
+                        <i class="iconfont">&#xe6a7;</i>
+                        <cite>等级管理</cite>
+                        
+                    </a>
+                </li>
+                
+            </ul>
+          </li>
+          <li>
+              <a href="javascript:;">
                   <i class="iconfont">&#xe6b8;</i>
                   <cite>会员管理</cite>
                   <i class="iconfont nav_right">&#xe697;</i>
