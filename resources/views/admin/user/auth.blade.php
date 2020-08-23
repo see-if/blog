@@ -23,20 +23,20 @@
     <div class="x-body">
         <form class="layui-form" action="">
           <div class="layui-form-item">
-            <label for="L_role_name" class="layui-form-label">
-                <span class="x-red">*</span>角色名称
+            <label for="L_user_name" class="layui-form-label">
+                <span class="x-red">*</span>用户名称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_role_name" name="role_name" required="" lay-verify=""
-                autocomplete="off" class="layui-input" value="{{$role->name}}">
-                <input type="hidden" name="role_id" value="{{$role->id}}">
+                <input type="text" id="L_user_name" name="user_name" required="" lay-verify=""
+                autocomplete="off" class="layui-input" value="{{$name}}">
+                <input type="hidden" name="user_id" value="{{$id}}">
           </div>
           <div class="layui-form-item">
-            <label class="layui-form-label">权限列表</label>
+            <label class="layui-form-label">角色列表</label>
             <div class="layui-input-block">
-              @foreach ($perms as $v)  
-                <input type="checkbox" name="permission_id[]" title="{{$v->name}}" value="{{$v->id}}"
-                  @if (in_array($v->id,$own_pers))
+              @foreach ($roles as $v)  
+                <input type="checkbox" name="role_id[]" title="{{$v->name}}" value="{{$v->id}}"
+                  @if (in_array($v->id,$been_roles))
                       checked  
                   @endif
                 >
@@ -80,7 +80,7 @@
 
           $.ajax({
                 type:'post',
-                url:"/admin/role/doAuth",
+                url:"/admin/user/doAuth",
                 dataType:'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

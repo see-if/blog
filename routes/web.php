@@ -32,6 +32,8 @@ Route::group(['prefix'=>"/admin",'namespace'=>'Admin',"middleware"=>"islogin"],f
 
     Route::resource("user","UserController");       //用户模块
     Route::post("user/index","UserController@index");
+    Route::get("user/auth/{id}","UserController@auth");
+    Route::post("user/doAuth","UserController@doAuth");
     Route::post("user/delAll","UserController@delAll");
 
 

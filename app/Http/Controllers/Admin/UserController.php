@@ -179,4 +179,45 @@ class UserController extends Controller
         $res=User::create(['user_name'=>'testincr','user_pass'=>$has,'status'=>1]);
         dd($res);
     }
+    //用户的角色列表
+    public function auth($id){
+        $name=DB::table("user")->where("id",$id)->value("user_name");
+        $roles=DB::table("role")->select("id","name")->get();
+        $user_roles=DB::table("user_role")->where("user_id",$id)->pluck("role_id");
+        // $been_roles=is_array($been_roles,"role_id");
+        // dd(is_array($been_roles));
+        $been_roles=[];
+        foreach($user_roles as $v){
+            // var_dump($v);
+            $been_roles[]=$v;
+        }
+        return view("admin/user/auth",compact("name","id","roles","been_roles"));
+    }
+    public function doAuth(Request $request){
+
+        $time=time();
+        $input=$request->all();
+        // return $input;
+        // 删除旧的权限
+        $res=DB::table("user_role")->where("user_id",$input['user_id'])->delete();
+        //增加新的权限
+        if(!empty($input['role_id'])){
+            foreach($input['role_id'] as $v){
+                if($res!==false){
+                    $res=DB::insert("insert into blog_user_role (user_id,role_id,created_time) values (?,?,?)",[$input['user_id'],$v,$time]);
+                }else{
+                    break;
+                }
+            }
+        }
+        if($res){
+            $data['status']=0;
+            $data['message']="授权成功";
+        }else{
+            $data['status']=1;
+            $data['message']="授权失败";
+
+        }
+        return $data;
+    }
 }
