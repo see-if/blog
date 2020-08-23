@@ -1,5 +1,5 @@
 <div class="footer">
-    <div class="copyright">Copyright ©2017 liner All Rights Reserved</div>  
+    <div class="copyright">Copyright ©2020 liner All Rights Reserved</div>  
 </div>
 <script>
 //百度统计可去掉

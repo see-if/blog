@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Model\Permission;
 use App\Model\Role;
 use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
+
 class RoleController extends Controller
 {
     /**
@@ -123,6 +125,30 @@ class RoleController extends Controller
         return view("admin.role.auth",compact("role","perms","own_pers"));
     }
     public function doAuth(Request $request){
-        dd($request->all());
+
+        $time=time();
+        $input=$request->all();
+        // 删除旧的权限
+        $res=DB::table("role_permission")->where("role_id",$input['role_id'])->delete();
+        //增加新的权限
+        if(!empty($input['permission_id'])){
+            foreach($input['permission_id'] as $v){
+                if($res!==false){
+                    $res=DB::insert("insert into blog_role_permission (role_id,permission_id,created_time) values (?,?,?)",[$input['role_id'],$v,$time]);
+                }else{
+                    break;
+                }
+            }
+        }
+        if($res){
+            $data['status']=0;
+            $data['message']="授权成功";
+        }else{
+            $data['status']=1;
+            $data['message']="授权失败";
+
+        }
+        return $data;
+
     }
 }

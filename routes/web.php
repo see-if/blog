@@ -35,8 +35,8 @@ Route::group(['prefix'=>"/admin",'namespace'=>'Admin',"middleware"=>"islogin"],f
     Route::post("user/delAll","UserController@delAll");
 
 
-    Route::resource("role","RoleController");       //角色模块
     Route::post("role/index","RoleController@index");      
+    Route::resource("role","RoleController");       //角色模块
     Route::get("role/auth/{id}","RoleController@auth");      //角色授权
     Route::post("role/doAuth","RoleController@doAuth");      //角色授权
     //
